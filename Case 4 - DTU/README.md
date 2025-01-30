@@ -16,7 +16,11 @@ For Shell (on Linux): "python3 -m venv venv && pip3 install -r requirements.txt"
 **To generate N signals, run the script like this: "python3 PSNSPD_data.py --signal_no N".\
 If no input is given, the default is 100 signals.**
 
-# Update 4.1
+# Update 5
+The current `psnspd.signal()` method uses an rms (root-mean square) voltage noise level of 0.01 volt, which corresponds to 10 dB SNR (signal-noise ratio). This is the noise level I expect from the photon detector. However, there are likely to be known unknowns. I would like to see how your network perform with a higher noise-level. Please also evaluate and report how your network perform with `psnspd.signal(rms_noise=0.015, decimate=50)` and `psnspd.signal(rms_noise=0.020, decimate=50)`.
+
+Concept of 'rms' seems to be unfamiliar for some of you. You can think of the rms value as the 1-sigma value of a random signal.
+
 NOTE: the input to the detector should be 1 Gsamp/s, not 50 Gsamp/s. This means that you should call `signal()` with `psnspd.signal(decimate=50)` and not rely on the default value of the `decimate` parameter. 
 
 The computational complexity of the detector algorithm, must be within the capabilities of the AMD UltraScale+ ZU9EG fpga, which is capable of 630 GMAC/s (giga multiply-and-accumulate per second) operations, where 1 MAC is one 24-bit multiplication plus one 24-bit addition. When estimating the computational complexity of the Python algorithm assume 1 floating point multiplication = 1 MAC, and all other operations are free. The detector should produce a photon number estimate every 100 ns (10 MHz), E.g. the detector must therefore maximum use 630 GMAC/s / 10 MHz = 63000 MAC = 63000 multiplications for each estimation. For a detector consisting of only a FCFF (fully-connected feed-forward) network, this means a maximum of 63000 weights in the network.
