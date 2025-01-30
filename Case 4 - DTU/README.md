@@ -17,7 +17,11 @@ For Shell (on Linux): "python3 -m venv venv && pip3 install -r requirements.txt"
 If no input is given, the default is 100 signals.**
 
 # Update 5
-The current `psnspd.signal()` method uses an rms (root-mean square) voltage noise level of 0.01 volt, which corresponds to 10 dB SNR (signal-noise ratio). This is the noise level I expect from the photon detector. However, there are likely to be known unknowns. I would like to see how your network perform with a higher noise-level. Please also evaluate and report how your network perform with `psnspd.signal(rms_noise=0.015, decimate=50)` and `psnspd.signal(rms_noise=0.020, decimate=50)`.
+The current `psnspd.signal()` method uses an rms (root-mean square) voltage noise level of 0.01 volt, which corresponds to 10 dB SNR (signal-noise ratio). This is the noise level I expect from the photon detector. However, there are likely to be known unknowns. I would like to see how your network perform with a higher noise-level. Please also evaluate and report how your network perform when using:
+```
+psnspd.signal(rms_noise=0.015, decimate=50)
+psnspd.signal(rms_noise=0.020, decimate=50)
+ ```
 
 Concept of 'rms' seems to be unfamiliar for some of you. You can think of the rms value as the 1-sigma value of a random signal.
 
